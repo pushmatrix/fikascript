@@ -58,7 +58,7 @@ function reverseObject(object) {
   return result;
 };
 
-var tokens = mergeObjects([FS.keywords, FS.literals, FS.identifiers]);
+FS.tokens = mergeObjects([FS.keywords, FS.literals, FS.identifiers]);
 
 // Create a reverse hash for the above translations
 var swedishToEnglishKeywords = reverseObject(FS.keywords);
@@ -111,7 +111,7 @@ parseStatement: true, parseSourceElement: true */
 
     // Universal Module Definition (UMD) to support AMD, CommonJS/Node.js,
     // Rhino, and plain browser loading.
-    if (typeof define === tokens.function && define.amd) {
+    if (typeof define === FS.tokens.function && define.amd) {
         define(['exports'], factory);
     } else if (typeof exports !== 'undefined') {
         factory(exports);
@@ -164,8 +164,8 @@ parseStatement: true, parseSourceElement: true */
     TokenName[Token.RegularExpression] = 'RegularExpression';
 
     // A function following one of those tokens is an expression.
-    FnExprTokens = ['(', '{', '[', tokens.in, tokens.typeof, tokens.instanceof, tokens.new,
-                    tokens.return, tokens.case, 'delete', tokens.throw, tokens.void,
+    FnExprTokens = ['(', '{', '[', FS.tokens.in, FS.tokens.typeof, FS.tokens.instanceof, FS.tokens.new,
+                    FS.tokens.return, FS.tokens.case, 'delete', FS.tokens.throw, FS.tokens.void,
                     // assignment operators
                     '=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=',
                     '&=', '|=', '^=', ',',
@@ -352,7 +352,7 @@ parseStatement: true, parseSourceElement: true */
         case 'public':
         case 'static':
         case 'yield':
-        case tokens.let:
+        case FS.tokens.let:
             return true;
         default:
             return false;
@@ -371,7 +371,7 @@ parseStatement: true, parseSourceElement: true */
         }
 
         // 'const' is specialized as Keyword in V8.
-        // 'yield' and tokens.let are for compatiblity with SpiderMonkey and ES.next.
+        // 'yield' and FS.tokens.let are for compatiblity with SpiderMonkey and ES.next.
         // Some others are from future reserved words.
 
         return swedishToEnglishKeywords[id] != null;
@@ -1212,10 +1212,10 @@ parseStatement: true, parseSourceElement: true */
                 checkToken = extra.tokens[extra.openParenToken - 1];
                 if (checkToken &&
                         checkToken.type === 'Keyword' &&
-                        (checkToken.value === tokens.if ||
-                         checkToken.value === tokens.while ||
-                         checkToken.value === tokens.for ||
-                         checkToken.value === tokens.with)) {
+                        (checkToken.value === FS.tokens.if ||
+                         checkToken.value === FS.tokens.while ||
+                         checkToken.value === FS.tokens.for ||
+                         checkToken.value === FS.tokens.with)) {
                     return collectRegex();
                 }
                 return scanPunctuator();
@@ -1242,7 +1242,7 @@ parseStatement: true, parseSourceElement: true */
                 }
                 // checkToken determines whether the function is
                 // a declaration or an expression.
-                if (FnExprTokens.indexOf(checkToken.value) >= 0) {
+                if (FnExprFS.tokens.indexOf(checkToken.value) >= 0) {
                     // It is an expression.
                     return scanPunctuator();
                 }
@@ -2125,10 +2125,10 @@ parseStatement: true, parseSourceElement: true */
             }
             expr = delegate.createLiteral(lex());
         } else if (type === Token.Keyword) {
-            if (matchKeyword(tokens.this)) {
+            if (matchKeyword(FS.tokens.this)) {
                 lex();
                 expr = delegate.createThisExpression();
-            } else if (matchKeyword(tokens.function)) {
+            } else if (matchKeyword(FS.tokens.function)) {
                 expr = parseFunctionExpression();
             }
         } else if (type === Token.BooleanLiteral) {
@@ -2215,7 +2215,7 @@ parseStatement: true, parseSourceElement: true */
         var callee, args;
 
         delegate.markStart();
-        expectKeyword(tokens.new);
+        expectKeyword(FS.tokens.new);
         callee = parseLeftHandSideExpression();
         args = match('(') ? parseArguments() : [];
 
@@ -2227,7 +2227,7 @@ parseStatement: true, parseSourceElement: true */
 
         marker = createLocationMarker();
 
-        expr = matchKeyword(tokens.new) ? parseNewExpression() : parsePrimaryExpression();
+        expr = matchKeyword(FS.tokens.new) ? parseNewExpression() : parsePrimaryExpression();
 
         while (match('.') || match('[') || match('(')) {
             if (match('(')) {
@@ -2254,7 +2254,7 @@ parseStatement: true, parseSourceElement: true */
 
         marker = createLocationMarker();
 
-        expr = matchKeyword(tokens.new) ? parseNewExpression() : parsePrimaryExpression();
+        expr = matchKeyword(FS.tokens.new) ? parseNewExpression() : parsePrimaryExpression();
 
         while (match('.') || match('[')) {
             if (match('[')) {
@@ -2326,7 +2326,7 @@ parseStatement: true, parseSourceElement: true */
             token = lex();
             expr = parseUnaryExpression();
             expr = delegate.createUnaryExpression(token.value, expr);
-        } else if (matchKeyword('delete') || matchKeyword(tokens.void) || matchKeyword(tokens.typeof)) {
+        } else if (matchKeyword('delete') || matchKeyword(FS.tokens.void) || matchKeyword(FS.tokens.typeof)) {
             token = lex();
             expr = parseUnaryExpression();
             expr = delegate.createUnaryExpression(token.value, expr);
@@ -2379,11 +2379,11 @@ parseStatement: true, parseSourceElement: true */
         case '>':
         case '<=':
         case '>=':
-        case tokens.instanceof:
+        case FS.tokens.instanceof:
             prec = 7;
             break;
 
-        case tokens.in:
+        case FS.tokens.in:
             prec = allowIn ? 7 : 0;
             break;
 
@@ -2702,7 +2702,7 @@ parseStatement: true, parseSourceElement: true */
     function parseIfStatement() {
         var test, consequent, alternate;
 
-        expectKeyword(tokens.if);
+        expectKeyword(FS.tokens.if);
 
         expect('(');
 
@@ -2712,7 +2712,7 @@ parseStatement: true, parseSourceElement: true */
 
         consequent = parseStatement();
 
-        if (matchKeyword(tokens.else)) {
+        if (matchKeyword(FS.tokens.else)) {
             lex();
             alternate = parseStatement();
         } else {
@@ -2727,7 +2727,7 @@ parseStatement: true, parseSourceElement: true */
     function parseDoWhileStatement() {
         var body, test, oldInIteration;
 
-        expectKeyword(tokens.do);
+        expectKeyword(FS.tokens.do);
 
         oldInIteration = state.inIteration;
         state.inIteration = true;
@@ -2736,7 +2736,7 @@ parseStatement: true, parseSourceElement: true */
 
         state.inIteration = oldInIteration;
 
-        expectKeyword(tokens.while);
+        expectKeyword(FS.tokens.while);
 
         expect('(');
 
@@ -2754,7 +2754,7 @@ parseStatement: true, parseSourceElement: true */
     function parseWhileStatement() {
         var test, body, oldInIteration;
 
-        expectKeyword(tokens.while);
+        expectKeyword(FS.tokens.while);
 
         expect('(');
 
@@ -2787,19 +2787,19 @@ parseStatement: true, parseSourceElement: true */
 
         init = test = update = null;
 
-        expectKeyword(tokens.for);
+        expectKeyword(FS.tokens.for);
 
         expect('(');
 
         if (match(';')) {
             lex();
         } else {
-            if (matchKeyword('var') || matchKeyword(tokens.let)) {
+            if (matchKeyword('var') || matchKeyword(FS.tokens.let)) {
                 state.allowIn = false;
                 init = parseForVariableDeclaration();
                 state.allowIn = true;
 
-                if (init.declarations.length === 1 && matchKeyword(tokens.in)) {
+                if (init.declarations.length === 1 && matchKeyword(FS.tokens.in)) {
                     lex();
                     left = init;
                     right = parseExpression();
@@ -2810,7 +2810,7 @@ parseStatement: true, parseSourceElement: true */
                 init = parseExpression();
                 state.allowIn = true;
 
-                if (matchKeyword(tokens.in)) {
+                if (matchKeyword(FS.tokens.in)) {
                     // LeftHandSideExpression
                     if (!isLeftHandSide(init)) {
                         throwError({}, Messages.InvalidLHSInForIn);
@@ -2859,7 +2859,7 @@ parseStatement: true, parseSourceElement: true */
     function parseContinueStatement() {
         var label = null, key;
 
-        expectKeyword(tokens.continue);
+        expectKeyword(FS.tokens.continue);
 
         // Optimize the most common form: 'continue;'.
         if (source.charCodeAt(index) === 59) {
@@ -2903,7 +2903,7 @@ parseStatement: true, parseSourceElement: true */
     function parseBreakStatement() {
         var label = null, key;
 
-        expectKeyword(tokens.break);
+        expectKeyword(FS.tokens.break);
 
         // Catch the very common case first: immediately a semicolon (char #59).
         if (source.charCodeAt(index) === 59) {
@@ -2947,13 +2947,13 @@ parseStatement: true, parseSourceElement: true */
     function parseReturnStatement() {
         var argument = null;
 
-        expectKeyword(tokens.return);
+        expectKeyword(FS.tokens.return);
 
         if (!state.inFunctionBody) {
             throwErrorTolerant({}, Messages.IllegalReturn);
         }
 
-        // tokens.return followed by a space and an identifier is very common.
+        // FS.tokens.return followed by a space and an identifier is very common.
         if (source.charCodeAt(index) === 32) {
             if (isIdentifierStart(source.charCodeAt(index + 1))) {
                 argument = parseExpression();
@@ -2986,7 +2986,7 @@ parseStatement: true, parseSourceElement: true */
             throwErrorTolerant({}, Messages.StrictModeWith);
         }
 
-        expectKeyword(tokens.with);
+        expectKeyword(FS.tokens.with);
 
         expect('(');
 
@@ -3008,17 +3008,17 @@ parseStatement: true, parseSourceElement: true */
 
         skipComment();
         delegate.markStart();
-        if (matchKeyword(tokens.default)) {
+        if (matchKeyword(FS.tokens.default)) {
             lex();
             test = null;
         } else {
-            expectKeyword(tokens.case);
+            expectKeyword(FS.tokens.case);
             test = parseExpression();
         }
         expect(':');
 
         while (index < length) {
-            if (match('}') || matchKeyword(tokens.default) || matchKeyword(tokens.case)) {
+            if (match('}') || matchKeyword(FS.tokens.default) || matchKeyword(FS.tokens.case)) {
                 break;
             }
             statement = parseStatement();
@@ -3031,7 +3031,7 @@ parseStatement: true, parseSourceElement: true */
     function parseSwitchStatement() {
         var discriminant, cases, clause, oldInSwitch, defaultFound;
 
-        expectKeyword(tokens.switch);
+        expectKeyword(FS.tokens.switch);
 
         expect('(');
 
@@ -3078,7 +3078,7 @@ parseStatement: true, parseSourceElement: true */
     function parseThrowStatement() {
         var argument;
 
-        expectKeyword(tokens.throw);
+        expectKeyword(FS.tokens.throw);
 
         if (peekLineTerminator()) {
             throwError({}, Messages.NewlineAfterThrow);
@@ -3098,7 +3098,7 @@ parseStatement: true, parseSourceElement: true */
 
         skipComment();
         delegate.markStart();
-        expectKeyword(tokens.catch);
+        expectKeyword(FS.tokens.catch);
 
         expect('(');
         if (match(')')) {
@@ -3119,15 +3119,15 @@ parseStatement: true, parseSourceElement: true */
     function parseTryStatement() {
         var block, handlers = [], finalizer = null;
 
-        expectKeyword(tokens.try);
+        expectKeyword(FS.tokens.try);
 
         block = parseBlock();
 
-        if (matchKeyword(tokens.catch)) {
+        if (matchKeyword(FS.tokens.catch)) {
             handlers.push(parseCatchClause());
         }
 
-        if (matchKeyword(tokens.finally)) {
+        if (matchKeyword(FS.tokens.finally)) {
             lex();
             finalizer = parseBlock();
         }
@@ -3142,7 +3142,7 @@ parseStatement: true, parseSourceElement: true */
     // 12.15 The debugger statement
 
     function parseDebuggerStatement() {
-        expectKeyword(tokens.debugger);
+        expectKeyword(FS.tokens.debugger);
 
         consumeSemicolon();
 
@@ -3179,33 +3179,33 @@ parseStatement: true, parseSourceElement: true */
 
         if (type === Token.Keyword) {
             switch (lookahead.value) {
-            case tokens.break:
+            case FS.tokens.break:
                 return delegate.markEnd(parseBreakStatement());
-            case tokens.continue:
+            case FS.tokens.continue:
                 return delegate.markEnd(parseContinueStatement());
-            case tokens.debugger:
+            case FS.tokens.debugger:
                 return delegate.markEnd(parseDebuggerStatement());
-            case tokens.do:
+            case FS.tokens.do:
                 return delegate.markEnd(parseDoWhileStatement());
-            case tokens.for:
+            case FS.tokens.for:
                 return delegate.markEnd(parseForStatement());
-            case tokens.function:
+            case FS.tokens.function:
                 return delegate.markEnd(parseFunctionDeclaration());
-            case tokens.if:
+            case FS.tokens.if:
                 return delegate.markEnd(parseIfStatement());
-            case tokens.return:
+            case FS.tokens.return:
                 return delegate.markEnd(parseReturnStatement());
-            case tokens.switch:
+            case FS.tokens.switch:
                 return delegate.markEnd(parseSwitchStatement());
-            case tokens.throw:
+            case FS.tokens.throw:
                 return delegate.markEnd(parseThrowStatement());
-            case tokens.try:
+            case FS.tokens.try:
                 return delegate.markEnd(parseTryStatement());
             case 'var':
                 return delegate.markEnd(parseVariableStatement());
-            case tokens.while:
+            case FS.tokens.while:
                 return delegate.markEnd(parseWhileStatement());
-            case tokens.with:
+            case FS.tokens.with:
                 return delegate.markEnd(parseWithStatement());
             default:
                 break;
@@ -3356,7 +3356,7 @@ parseStatement: true, parseSourceElement: true */
         skipComment();
         delegate.markStart();
 
-        expectKeyword(tokens.function);
+        expectKeyword(FS.tokens.function);
         token = lookahead;
         id = parseVariableIdentifier();
         if (strict) {
@@ -3398,7 +3398,7 @@ parseStatement: true, parseSourceElement: true */
         var token, id = null, stricted, firstRestricted, message, tmp, params = [], body, previousStrict;
 
         delegate.markStart();
-        expectKeyword(tokens.function);
+        expectKeyword(FS.tokens.function);
 
         if (!match('(')) {
             token = lookahead;
@@ -3445,9 +3445,9 @@ parseStatement: true, parseSourceElement: true */
         if (lookahead.type === Token.Keyword) {
             switch (lookahead.value) {
             case 'const':
-            case tokens.let:
+            case FS.tokens.let:
                 return parseConstLetDeclaration(lookahead.value);
-            case tokens.function:
+            case FS.tokens.function:
                 return parseFunctionDeclaration();
             default:
                 return parseStatement();
@@ -3759,7 +3759,7 @@ parseStatement: true, parseSourceElement: true */
     exports.Syntax = (function () {
         var name, types = {};
 
-        if (typeof Object.create === tokens.function) {
+        if (typeof Object.create === FS.tokens.function) {
             types = Object.create(null);
         }
 
@@ -3769,7 +3769,7 @@ parseStatement: true, parseSourceElement: true */
             }
         }
 
-        if (typeof Object.freeze === tokens.function) {
+        if (typeof Object.freeze === FS.tokens.function) {
             Object.freeze(types);
         }
 
