@@ -38,25 +38,31 @@ FS.literals = {
 
 FS.identifiers = {
   document: 'dokument'
-}
+};
 
-function merge_objects(objects){
+function mergeObjects(objects){
     var result = {};
     for (_object in objects) {
       object = objects[_object];
       for (var attrname in object) { result[attrname] = object[attrname]; }
     }
     return result;
-}
+};
 
-tokens = merge_objects([FS.keywords, FS.literals, FS.identifiers]);
+function reverseObject(object) {
+  var result = {};
+  for (attrname in object) {
+    var key = object[attrname];
+    result[key] = attrname; 
+  }
+  return result;
+};
+
+var tokens = mergeObjects([FS.keywords, FS.literals, FS.identifiers]);
 
 // Create a reverse hash for the above translations
-var swedishToEnglishKeywords = {};
-for (keyword in FS.keywords) {
-    var translation = FS.keywords[keyword];
-    swedishToEnglishKeywords[translation] = keyword;
-};
+var swedishToEnglishKeywords = reverseObject(FS.keywords);
+
 /*
   Copyright (C) 2013 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2013 Thaddee Tyl <thaddee.tyl@gmail.com>
