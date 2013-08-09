@@ -626,9 +626,9 @@ parseStatement: true, parseSourceElement: true */
             type = Token.Identifier;
         } else if (isKeyword(id)) {
             type = Token.Keyword;
-        } else if (id === 'null') {
+        } else if (id === FS.tokens.null) {
             type = Token.NullLiteral;
-        } else if (id === 'true' || id === 'false') {
+        } else if (id === FS.tokens.true || id === FS.tokens.false) {
             type = Token.BooleanLiteral;
         } else {
             type = Token.Identifier;
@@ -2133,7 +2133,7 @@ parseStatement: true, parseSourceElement: true */
             }
         } else if (type === Token.BooleanLiteral) {
             token = lex();
-            token.value = (token.value === 'true');
+            token.value = (token.value === FS.tokens.true);
             expr = delegate.createLiteral(token);
         } else if (type === Token.NullLiteral) {
             token = lex();
