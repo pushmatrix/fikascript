@@ -1,0 +1,200 @@
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/codemirror.css">
+  <script type="text/javascript" src="fikascript.js"></script>
+  <script type="text/javascript" src="escodegen.js"></script>
+  <script type="text/javascript" src="js/codemirror.js"></script>
+  <script type="text/javascript" src="js/codemirror-javascript.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <style type="text/css">
+
+    h1 {
+      color: #ffcc00;
+      font-family: 'Lilita One', cursive;
+      text-shadow: 0px 2px 0px black;
+      font-size: 40px;
+      padding-top: 20px;
+    }
+
+    footer {
+      color: white;
+      font-family: arial;
+      margin: 5px;
+      color: #234d93;
+    }
+
+    body {
+      background: #005B99;
+      padding: 0px;
+      margin:  0px;
+    }
+
+    .editor {
+      height: 100%;
+      width: 50%;
+    }
+
+    .CodeMirror {
+      border: 1px solid #c6c7c7;
+      height: 700px;
+      width: 100%;
+    }
+
+
+    #editors {
+      background: #f1f0f2;
+      position: relative;
+      padding: 1px;
+      padding-right: 3px;
+      padding-bottom: 3px;
+      width: 100%;
+      height: 700px;
+      padding: 5px 7px 7px 5px;
+      border: 1px solid #aaa;
+      -webkit-border-radius: 3px;
+      -webkit-border-top-right-radius: 5px;
+      -moz-border-radius: 3px;
+      -moz-border-radius-topright: 5px;
+      border-radius: 3px;
+      border-top-right-radius: 5px;
+      -webkit-box-shadow: 0 9px 6px -6px #333;
+        -moz-box-shadow:  0 9px 6px -6px  #333;
+             box-shadow:  0 9px 6px -6px  #333;
+    }
+
+    .divider {
+      height: 100px;
+      position: absolute;
+      width: 3px;
+      background: red;
+    }
+
+    #container {
+      width: 80%;
+      max-width: 900px;
+      height: 100%;
+      margin: 0px auto;
+    }
+
+    #swe {
+      float: left;
+    }
+
+    #eng {
+      float: right;
+    }
+
+    .tabs {
+      position: relative;
+      margin: 0px;
+      padding: 0px;
+      top: 1px;
+      left: 10px;
+    }
+    .tab {
+      width: 100px;
+      height: 20px;
+      cursor: pointer;
+      position: relative;
+      background: #f1f0f2;
+      list-style: none;
+      display: inline-block;
+      border: 1px solid #777;
+      border-bottom: none;
+      -webkit-border-top-right-radius: 5px;
+      -webkit-border-top-left-radius: 5px;
+      -moz-border-radius-topright: 5px;
+      -moz-border-radius-topleft: 5px;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      text-align: center;
+      padding-top: 4px;
+      color: #777;
+      background: #ffffff; /* Old browsers */
+      background: -moz-linear-gradient(top,  #ffffff 0%, #dddddd 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #ffffff 0%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  #ffffff 0%,#dddddd 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  #ffffff 0%,#dddddd 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  #ffffff 0%,#dddddd 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+
+    }
+
+    .tab:hover {
+      opacity: 0.95;
+    }
+
+    .tab.active:hover {
+      opacity: 1;
+    }
+
+    .tab.active {
+      border: 1px solid #aaa;
+      border-bottom: none;
+      z-index: 10000;
+      color: #444;
+
+      background: #ffffff; /* Old browsers */
+      background: -moz-linear-gradient(top,  #ffffff 0%, #eaeaea 47%, #f1f0f2 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#eaeaea), color-stop(100%,#f1f0f2)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #ffffff 0%,#eaeaea 47%,#f1f0f2 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  #ffffff 0%,#eaeaea 47%,#f1f0f2 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  #ffffff 0%,#eaeaea 47%,#f1f0f2 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  #ffffff 0%,#eaeaea 47%,#f1f0f2 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f1f0f2',GradientType=0 ); /* IE6-9 */
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>FikaScript</h1>
+    <ul class="tabs">
+      <li class="tab active">
+        SWE &#8594; ENG
+      </li>
+      <li class="tab">
+        ENG &#8594; SWE
+      </li>
+      <li class="tab">
+        Docs
+      </li>
+    </ul>
+    <div id="editors">
+      <div class="divider"></div>
+      <div id="swe" class="editor"></div>
+      <div id="eng" class="editor"></div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+
+    $().ready(function() {
+      console.log('ok')
+      $('.tab').click(function() {
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+      });
+    });
+
+
+  var swedish = CodeMirror(document.getElementById('swe'), { lineNumbers: true });
+  var english = CodeMirror(document.getElementById('eng'), { readOnly: true });
+  swedish.on("change", function(cm, change) {
+    var text = cm.getValue();
+    var ast  = esprima.parse(text, { range: true, tokens: true, comment: true });
+    ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
+    var parsed = escodegen.generate(ast, { comment: true });
+    console.log(ast);
+    english.setValue(parsed);
+
+  });
+</script>
+</body>
+</html>
