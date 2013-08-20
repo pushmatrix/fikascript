@@ -799,7 +799,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
         }
 
         if (value === 1 / 0) {
-            return json ? 'null' : renumber ? '1e400' : '1e+400';
+            return json ? FS.outputTokens.null : renumber ? '1e400' : '1e+400';
         }
 
         result = '' + value;
@@ -1338,7 +1338,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 result = join(result, fragment);
             }
 
-            if (expr.operator === 'in' && !allowIn) {
+            if (expr.operator === FS.outputTokens.in && !allowIn) {
                 result = ['(', result, ')'];
             } else {
                 result = parenthesize(result, currentPrecedence, precedence);
@@ -1379,7 +1379,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             allowUnparenthesizedNew = option.allowUnparenthesizedNew === undefined || option.allowUnparenthesizedNew;
 
             result = join(
-                'new',
+                FS.outputTokens.new,
                 generateExpression(expr.callee, {
                     precedence: Precedence.New,
                     allowIn: true,
@@ -1515,7 +1515,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.FunctionExpression:
-            result = 'function';
+            result = FS.outputTokens.function;
             if (expr.id) {
                 result += ' ' + expr.id.name;
             } else {
@@ -1705,7 +1705,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.ThisExpression:
-            result = 'this';
+            result = FS.outputTokens.this;
             break;
 
         case Syntax.Identifier:
@@ -1728,7 +1728,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             }
 
             if (expr.value === null) {
-                result = 'null';
+                result = FS.outputTokens.null;
                 break;
             }
 
@@ -1767,7 +1767,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             }
 
             if (expr.filter) {
-                result = join(result, 'if' + space);
+                result = join(result, FS.outputTokens.if + space);
                 fragment = generateExpression(expr.filter, {
                     precedence: Precedence.Sequence,
                     allowIn: true,
@@ -1798,7 +1798,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 });
             }
 
-            fragment = join(fragment, expr.of ? 'of' : 'in');
+            fragment = join(fragment, expr.of ? 'of' : FS.outputTokens.in);
             fragment = join(fragment, generateExpression(expr.right, {
                 precedence: Precedence.Sequence,
                 allowIn: true,
@@ -1806,9 +1806,9 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             }));
 
             if (extra.moz.parenthesizedComprehensionBlock) {
-                result = [ 'for' + space + '(', fragment, ')' ];
+                result = [ FS.outputTokens.for + space + '(', fragment, ')' ];
             } else {
-                result = join('for' + space, fragment);
+                result = join(FS.outputTokens.for + space, fragment);
             }
             break;
 
@@ -1857,17 +1857,17 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
 
         case Syntax.BreakStatement:
             if (stmt.label) {
-                result = 'break ' + stmt.label.name + semicolon;
+                result = FS.outputTokens.break + ' ' + stmt.label.name + semicolon;
             } else {
-                result = 'break' + semicolon;
+                result = FS.outputTokens.break + semicolon;
             }
             break;
 
         case Syntax.ContinueStatement:
             if (stmt.label) {
-                result = 'continue ' + stmt.label.name + semicolon;
+                result = FS.outputTokens.continue + ' ' + stmt.label.name + semicolon;
             } else {
-                result = 'continue' + semicolon;
+                result = FS.outputTokens.continue + semicolon;
             }
             break;
 
@@ -1881,10 +1881,10 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
 
         case Syntax.DoWhileStatement:
             // Because `do 42 while (cond)` is Syntax Error. We need semicolon.
-            result = join('do', maybeBlock(stmt.body));
+            result = join(FS.outputTokens.do, maybeBlock(stmt.body));
             result = maybeBlockSuffix(stmt.body, result);
             result = join(result, [
-                'while' + space + '(',
+                FS.outputTokens.while + space + '(',
                 generateExpression(stmt.test, {
                     precedence: Precedence.Sequence,
                     allowIn: true,
@@ -1897,7 +1897,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
         case Syntax.CatchClause:
             withIndent(function () {
                 result = [
-                    'catch' + space + '(',
+                    FS.outputTokens.catch + space + '(',
                     generateExpression(stmt.param, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
@@ -1910,7 +1910,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.DebuggerStatement:
-            result = 'debugger' + semicolon;
+            result = FS.outputTokens.debugger + semicolon;
             break;
 
         case Syntax.EmptyStatement:
@@ -1925,7 +1925,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             })];
             // 12.4 '{', 'function' is not allowed in this position.
             // wrap expression with parentheses
-            if (result.toString().charAt(0) === '{' || (result.toString().slice(0, 8) === 'function' && " (".indexOf(result.toString().charAt(8)) >= 0) || (directive && directiveContext && stmt.expression.type === Syntax.Literal && typeof stmt.expression.value === 'string')) {
+            if (result.toString().charAt(0) === '{' || (result.toString().slice(0, 8) === FS.outputTokens.function && " (".indexOf(result.toString().charAt(8)) >= 0) || (directive && directiveContext && stmt.expression.type === Syntax.Literal && typeof stmt.expression.value === 'string')) {
                 result = ['(', result, ')' + semicolon];
             } else {
                 result.push(semicolon);
@@ -1996,7 +1996,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
 
         case Syntax.ThrowStatement:
             result = [join(
-                'throw',
+                FS.outputTokens.throw,
                 generateExpression(stmt.argument, {
                     precedence: Precedence.Sequence,
                     allowIn: true,
@@ -2006,7 +2006,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.TryStatement:
-            result = ['try', maybeBlock(stmt.block)];
+            result = [FS.outputTokens.try, maybeBlock(stmt.block)];
             result = maybeBlockSuffix(stmt.block, result);
             for (i = 0, len = stmt.handlers.length; i < len; i += 1) {
                 result = join(result, generateStatement(stmt.handlers[i]));
@@ -2015,14 +2015,14 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 }
             }
             if (stmt.finalizer) {
-                result = join(result, ['finally', maybeBlock(stmt.finalizer)]);
+                result = join(result, [FS.outputTokens.finally, maybeBlock(stmt.finalizer)]);
             }
             break;
 
         case Syntax.SwitchStatement:
             withIndent(function () {
                 result = [
-                    'switch' + space + '(',
+                    FS.outputTokens.switch + space + '(',
                     generateExpression(stmt.discriminant, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
@@ -2047,7 +2047,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             withIndent(function () {
                 if (stmt.test) {
                     result = [
-                        join('case', generateExpression(stmt.test, {
+                        join(FS.outputTokens.case, generateExpression(stmt.test, {
                             precedence: Precedence.Sequence,
                             allowIn: true,
                             allowCall: true
@@ -2083,7 +2083,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
         case Syntax.IfStatement:
             withIndent(function () {
                 result = [
-                    'if' + space + '(',
+                    FS.outputTokens.if + space + '(',
                     generateExpression(stmt.test, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
@@ -2096,9 +2096,9 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 result.push(maybeBlock(stmt.consequent));
                 result = maybeBlockSuffix(stmt.consequent, result);
                 if (stmt.alternate.type === Syntax.IfStatement) {
-                    result = join(result, ['else ', generateStatement(stmt.alternate, {semicolonOptional: semicolon === ''})]);
+                    result = join(result, [FS.outputTokens.else, generateStatement(stmt.alternate, {semicolonOptional: semicolon === ''})]);
                 } else {
-                    result = join(result, join('else', maybeBlock(stmt.alternate, semicolon === '')));
+                    result = join(result, join(FS.outputTokens.else, maybeBlock(stmt.alternate, semicolon === '')));
                 }
             } else {
                 result.push(maybeBlock(stmt.consequent, semicolon === ''));
@@ -2107,7 +2107,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
 
         case Syntax.ForStatement:
             withIndent(function () {
-                result = ['for' + space + '('];
+                result = [FS.outputTokens.for + space + '('];
                 if (stmt.init) {
                     if (stmt.init.type === Syntax.VariableDeclaration) {
                         result.push(generateStatement(stmt.init, {allowIn: false}));
@@ -2147,7 +2147,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.ForInStatement:
-            result = ['for' + space + '('];
+            result = [FS.outputTokens.for + space + '('];
             withIndent(function () {
                 if (stmt.left.type === Syntax.VariableDeclaration) {
                     withIndent(function () {
@@ -2163,7 +2163,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                     }));
                 }
 
-                result = join(result, 'in');
+                result = join(result, FS.outputTokens.in);
                 result = [join(
                     result,
                     generateExpression(stmt.right, {
@@ -2198,13 +2198,13 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
             break;
 
         case Syntax.FunctionDeclaration:
-            result = [(stmt.generator && !extra.moz.starlessGenerator ? 'function* ' : 'function ') + stmt.id.name, generateFunctionBody(stmt)];
+            result = [(stmt.generator && !extra.moz.starlessGenerator ? FS.outputTokens.function + '*': FS.outputTokens.function + ' ') + stmt.id.name, generateFunctionBody(stmt)];
             break;
 
         case Syntax.ReturnStatement:
             if (stmt.argument) {
                 result = [join(
-                    'return',
+                    FS.outputTokens.return,
                     generateExpression(stmt.argument, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
@@ -2212,14 +2212,14 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                     })
                 ), semicolon];
             } else {
-                result = ['return' + semicolon];
+                result = [FS.outputTokens.return + semicolon];
             }
             break;
 
         case Syntax.WhileStatement:
             withIndent(function () {
                 result = [
-                    'while' + space + '(',
+                    FS.outputTokens.while + space + '(',
                     generateExpression(stmt.test, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
@@ -2234,7 +2234,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
         case Syntax.WithStatement:
             withIndent(function () {
                 result = [
-                    'with' + space + '(',
+                    FS.outputTokens.with + space + '(',
                     generateExpression(stmt.object, {
                         precedence: Precedence.Sequence,
                         allowIn: true,
