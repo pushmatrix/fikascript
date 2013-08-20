@@ -5,6 +5,9 @@
   <link rel="icon" 
       type="image/png" 
       href="img/favicon.ico">
+  <meta name="description" content="Write JavaScript in Swedish">
+  <meta name="keywords" content="FikaScript, Sweden, JavaScript">
+  <meta name="author" content="Daniel Beauchamp">
   <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <link rel="stylesheet" type="text/css" href="css/codemirror.css">
   <script type="text/javascript" src="fikascript.js"></script>
@@ -32,7 +35,6 @@
       color: #f3f3f3;
       margin-top: 10px;
       padding-bottom: 12px;
-      text-align: center;
       font-size: 12px;
     }
 
@@ -244,9 +246,23 @@
       text-decoration: underline;
     }
 
+    #social-btns {
+      margin-top: 5px;
+    }
+
   </style>
 </head>
 <body>
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
   <div id="container">
     <h1 id="logo">FikaScript</h1>
     <ul class="tabs">
@@ -315,6 +331,11 @@
     <footer>
       <a href="http://twitter.com/pushmatrix" target="_blank">Made by Daniel</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;
       <a href="http://github.com/pushmatrix/fikascript" target="_blank">View on Github</a>
+      <div id='social-btns'>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="FikaScript: Finally there is a way for Swedes to write JavaScript in Swedish." data-count="none" data-hashtags="sweden">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <div class="fb-like" data-href="http://fikascript.se" data-width="10" data-layout="button_count" data-show-faces="false" data-send="false"></div>
+      <div></div>
     </footer>
   </div>
 
