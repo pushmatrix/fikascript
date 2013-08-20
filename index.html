@@ -25,18 +25,22 @@
     }
 
     footer {
-      color: white;
-      font-family: arial;
-      margin: 5px;
-      color: #234d93;
+      color: #f3f3f3;
+      margin-top: 10px;
+      padding-bottom: 12px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    footer hr {
+      width: 85px;
     }
 
     body {
       background: #005B99;
       padding: 0px;
       margin:  0px;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
+      font-family: 'Lato', sans-serif;
     }
 
     .editor {
@@ -46,7 +50,7 @@
 
     .CodeMirror {
       border: 1px solid #c6c7c7;
-      height: 700px;
+      height: 600px;
       width: 100%;
     }
 
@@ -58,7 +62,7 @@
       padding-right: 3px;
       padding-bottom: 3px;
       width: 100%;
-      height: 700px;
+      height: 600px;
       padding: 5px 7px 7px 5px;
       border: 1px solid #aaa;
       -webkit-border-radius: 3px;
@@ -157,7 +161,7 @@
 
     #pages {
       width: 100%;
-      height: 700px;
+      height: 600px;
       position: relative;
     }
 
@@ -226,6 +230,16 @@
       padding: 5px;
       margin: 0px;
     }
+
+    a, a:link,a:active,a:visited {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
   </style>
 </head>
 <body>
@@ -287,8 +301,11 @@
           </div>
         </div>
       </div>
-
     </div>
+    <footer>
+      <a href="http://twitter.com/pushmatrix" target="_blank">Made by Daniel</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;
+      <a href="http://github.com/pushmatrix/fikascript" target="_blank">View on Github</a>
+    </footer>
   </div>
 
 <script type="text/javascript">
