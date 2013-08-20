@@ -5891,7 +5891,7 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                         ':'
                     ];
                 } else {
-                    result = ['default:'];
+                    result = [FS.outputTokens.default + ':'];
                 }
 
                 i = 0;
