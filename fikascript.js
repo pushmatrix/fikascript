@@ -10,7 +10,7 @@ FS.keywords = {
     return: 'återvänd',
         do: 'gör',
        var: 'var',
-        in: 'inne',
+        in: 'inuti',
        let: 'låt',
        new: 'ny',
        try: 'försök',
@@ -22,10 +22,10 @@ FS.keywords = {
      catch: 'fånga',
     switch: 'byt',
   continue: 'fortsätt',
-  debugger: 'debugger',
-instanceof: 'exempelav',
+  debugger: 'avlusare',
+instanceof: 'instansav',
     typeof: 'typav',
-      void: 'ogiltig',
+      void: 'tom',
     delete: 'tabort',
    default: 'standard',
    finally: 'slutligen'
@@ -38,8 +38,7 @@ FS.literals = {
 };
  
 FS.identifiers = {
-  document: 'dokument',
-  console: 'konsol'
+  document: 'dokument'
 };
 
 function mergeObjects(objects){
@@ -5164,6 +5163,8 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 allowCall: true
             });
 
+            expr.operator = FS.outputTokens[FS.inputKeywords[expr.operator]] || expr.operator;
+
             if (expr.operator === '/' && fragment.toString().charAt(0) === '/') {
                 // If '/' concats with '/', it is interpreted as comment start
                 result.push(' ', fragment);
@@ -5273,6 +5274,8 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 allowIn: true,
                 allowCall: true
             });
+
+            expr.operator = FS.outputTokens[FS.inputKeywords[expr.operator]] || expr.operator;
 
             if (space === '') {
                 result = join(expr.operator, fragment);
