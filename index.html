@@ -80,11 +80,11 @@
       margin: 0px auto;
     }
 
-    #swe {
+    .input {
       float: left;
     }
 
-    #eng {
+    .output {
       float: right;
     }
 
@@ -129,6 +129,10 @@
 
     .tab:hover {
       opacity: 0.95;
+      -webkit-user-select: none;  
+      -moz-user-select: none;    
+      -ms-user-select: none;      
+      user-select: none;
     }
 
     .tab.active:hover {
@@ -241,16 +245,19 @@
     <div id="editor-window">
       <div id="pages">
         <div class="page visible" id="swe-eng">
-          <div id="swe" class="editor"></div>
+          <div class="editor input"></div>
           <div class="errors">
             <p></p>
           </div>
-          <div id="eng" class="editor output"></div>
+          <div class="editor output"></div>
         </div>
 
         <div class="page" id="eng-swe">
-          <div id="swe" class="editor"></div>
-          <div id="eng" class="editor output"></div>
+          <div class="editor input"></div>
+          <div class="errors">
+            <p></p>
+          </div>
+          <div class="editor output"></div>
         </div>
   
         <div class="page" id="docs">
@@ -295,9 +302,33 @@
         }
       }
     }
+
+    setupCodeMirror = function(type) {
+      var input = CodeMirror($('#' + type + ' .input')[0], { lineNumbers: true });
+      var output = CodeMirror($('#' + type + ' .output')[0], { readOnly: true });
+
+      input.on("change", function(cm, change) {
+        var text = cm.getValue();
+        var errorsClass = $('#' + type + ' .errors');
+        try {
+          if (type == 'swe-eng') {
+            result = FS.swedishToEnglish(text);
+          } else {
+            result = FS.englishToSwedish(text);
+          }
+          output.setValue(result);
+          errorsClass.hide();
+        } catch (e) {
+          errorsClass.show();
+          errorsClass.find('p').html(e.toString());
+        }
+      });
+    }
     $().ready(function() {
 
       populateTranslationTables(['keywords', 'literals', 'identifiers']);
+      setupCodeMirror("swe-eng");
+      setupCodeMirror("eng-swe");
 
       $('.tab').click(function() {
         $('.tab').removeClass('active');
@@ -309,24 +340,6 @@
       });
     });
 
-
-  var swedish = CodeMirror(document.getElementById('swe'), { lineNumbers: true });
-  var english = CodeMirror(document.getElementById('eng'), { readOnly: true });
-  swedish.on("change", function(cm, change) {
-    var text = cm.getValue();
-    try {
-      var ast  = esprima.parse(text, { range: true, tokens: true, comment: true });
-      $('.errors').hide();
-    } catch (e) {
-      $('.errors').show();
-      $('.errors p').html(e.toString());
-    }
-    ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
-    var parsed = escodegen.generate(ast, { comment: true });
-    console.log(ast);
-    english.setValue(parsed);
-
-  });
 </script>
 </body>
 </html>

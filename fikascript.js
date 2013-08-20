@@ -9,7 +9,7 @@ FS.keywords = {
     return: 'återvända',
         do: 'göra',
        var: 'var',
-        in: 'inuti',
+        in: 'inne',
        let: 'låt',
        new: 'ny',
        try: 'försök',
@@ -58,10 +58,52 @@ function reverseObject(object) {
   return result;
 };
 
-FS.tokens = mergeObjects([FS.keywords, FS.literals, FS.identifiers]);
+FS.swedishTokens = mergeObjects([FS.keywords, FS.literals, FS.identifiers]);
+
+FS.englishTokens = {};
+for (token in FS.swedishTokens) {
+  FS.englishTokens[token] = token;
+}
+
+FS.englishKeywords = {};
+for (token in FS.keywords) {
+  FS.englishKeywords[token] = token;
+}
+
+// LOLOLOL
+FS.swedishToEnglishKeywords = reverseObject(FS.keywords);
+FS.englishToEnglishKeywords = {};
+for (keyword in FS.keywords) {
+  FS.englishToEnglishKeywords[keyword] = keyword;
+}
 
 // Create a reverse hash for the above translations
-var swedishToEnglishKeywords = reverseObject(FS.keywords);
+FS.inputKeywords = FS.englishToEnglishKeywords;
+FS.tokens = FS.englishTokens;
+FS.outputTokens = FS.englishTokens;
+
+(function() {
+  var translate = function(code) {
+    var ast  = esprima.parse(code, { range: true, tokens: true, comment: true });
+    ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
+    var parsed = escodegen.generate(ast, { comment: true });
+    return parsed;
+  };
+
+  FS.swedishToEnglish = function(code) {
+    FS.inputKeywords = FS.swedishToEnglishKeywords;
+    FS.tokens = FS.swedishTokens;
+    FS.outputTokens = FS.englishTokens;
+    return translate(code);
+  }
+
+  FS.englishToSwedish = function(code) {
+    FS.inputKeywords = FS.englishToEnglishKeywords;
+    FS.tokens = FS.englishTokens;
+    FS.outputTokens = FS.swedishTokens;
+    return translate(code);
+  } 
+})();
 
 /*
   Copyright (C) 2013 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -374,7 +416,7 @@ parseStatement: true, parseSourceElement: true */
         // 'yield' and FS.tokens.let are for compatiblity with SpiderMonkey and ES.next.
         // Some others are from future reserved words.
 
-        return swedishToEnglishKeywords[id] != null;
+        return FS.inputKeywords[id] != null;
     }
 
     // 7.4 Comments
