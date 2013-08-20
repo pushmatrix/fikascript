@@ -1,4 +1,5 @@
 FS = {};
+FikaScript = FS;
 
 FS.keywords = {
   function: 'funktion',
