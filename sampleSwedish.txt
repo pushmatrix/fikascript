@@ -2,16 +2,21 @@
 
 var saker = [1, 2, 14, 30, 50];
 
-för(x inne saker) {
-  om(saker[x] > 5) {
-    console.log(saker[x] + ' är över fem');
-  } annars {
-    console.log(saker[x] + ' är under fem');
-  }
+var människor = [
+  'Björn',
+  'Benny',
+  'Agnetha',
+  'Anni-Frid'
+  ];
+
+om (människor.length == 4) {
+  konsol.log("HEJ!!!");
 }
 
 funktion sägaNamn(namn) {
-  console.log('Hej ' + namn);
+  konsol.log('Hej ' + namn);
 }
 
-sägaNamn('björn!');
+för(index inne människor) {
+  sägaNamn(människor[index]);
+}
