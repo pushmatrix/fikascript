@@ -8,12 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <link rel="stylesheet" type="text/css" href="css/codemirror.css">
   <script type="text/javascript" src="fikascript.js"></script>
-  <script type="text/javascript" src="escodegen.js"></script>
   <script type="text/javascript" src="js/codemirror.js"></script>
   <script type="text/javascript" src="js/codemirror-javascript.js"></script>
   <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
   <style type="text/css">
 
     #logo {
@@ -22,6 +22,10 @@
       text-shadow: 0px 2px 0px black;
       font-size: 40px;
       padding-top: 20px;
+    }
+
+    h3 {
+      margin-bottom: -23px;
     }
 
     footer {
@@ -231,12 +235,12 @@
       margin: 0px;
     }
 
-    a, a:link,a:active,a:visited {
+    footer a, footer a:link, footer a:active, footer a:visited {
         color: white;
         text-decoration: none;
     }
 
-    a:hover {
+    footer a:hover {
       text-decoration: underline;
     }
 
@@ -276,7 +280,10 @@
   
         <div class="page" id="docs">
           <div class="content">
-            <h1>Translations</h1>
+            <h2>FikaScript</h2>
+            <p>Finally! A way for Swedes to code in their native language.
+            <i>FikaScript</i> compiles directly to and from JavaScript, and is named after <a href="http://en.wikipedia.org/wiki/Fika_(coffee_break)" target="_blank"><strong>fika</strong></a>: the sacred Swedish coffee break.</p>
+            <h2>Translations</h2>
             <h3>Keywords</h3>
             <table id="translation-keywords" class="translations">
               <tr>
@@ -298,6 +305,9 @@
                 <th>Swedish</th>
               </tr>
             </table>
+            <h2>Missing a translation?</h2>
+            <p><a href="http://github.com/pushmatrix/fikascript" target="_blank">Submit a pull request on Github</a></p>
+            <br>
           </div>
         </div>
       </div>
