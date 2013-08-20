@@ -1,0 +1,17 @@
+// Write JavaScript in Swedish!
+
+funktion sägaNamn(namn) {
+  console.log('Hej ' + namn);
+}
+
+sägaNamn('björn!');
+
+var saker = [1, 2, 14, 30, 50];
+
+för(x inne saker) {
+  om(saker[x] > 5) {
+    console.log(saker[x] + ' är över fem');
+  } annars {
+    console.log(saker[x] + ' är under fem');
+  }
+}

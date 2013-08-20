@@ -292,7 +292,6 @@
   </div>
 
 <script type="text/javascript">
-    
     populateTranslationTables = function(types) {
       for(type in types) {
         type = types[type];
@@ -323,20 +322,39 @@
           errorsClass.find('p').html(e.toString());
         }
       });
+      return input;
+    }
+
+    selectPage = function(page) {
+      $(".page").removeClass('visible');
+      $("#" + page).addClass('visible');
+      if (editor = editors[page]) {
+        editor.focus();
+      }
     }
     $().ready(function() {
 
       populateTranslationTables(['keywords', 'literals', 'identifiers']);
-      setupCodeMirror("swe-eng");
-      setupCodeMirror("eng-swe");
+      editors = {};
+      editors['swe-eng'] = setupCodeMirror("swe-eng");
+      editors['eng-swe'] = setupCodeMirror("eng-swe");
+      selectPage('swe-eng');
+
+      $.get("sampleSwedish.txt", function(val) {
+        editors['swe-eng'].setValue(val);
+        editors['swe-eng'].setCursor(1);
+      });
+
+      $.get("sampleEnglish.txt", function(val) {
+        editors['eng-swe'].setValue(val);
+        editors['eng-swe'].setCursor(2);
+      });
 
       $('.tab').click(function() {
         $('.tab').removeClass('active');
         $(this).addClass('active');
         var page = $(this).data('tab');
-        $(".page").removeClass('visible');
-        x = $("#" + page);
-        $("#" + page).addClass('visible');
+        selectPage(page);
       });
     });
 
