@@ -80,15 +80,12 @@ for (keyword in FS.keywords) {
 }
 
 FS.swedishToEnglishIdentifiers = reverseObject(FS.identifiers);
-FS.englishToEnglishIdentifiers = {};
-for (identifier in FS.identifiers) {
-  FS.englishToEnglishIdentifiers[identifier] = identifier;
-}
+FS.englishToSwedishIdentifiers = FS.identifiers;
 
 // Create a reverse hash for the above translations
-FS.inputKeywords = FS.englishToEnglishKeywords;
-FS.inputIdentifiers = FS.englishToEnglishIdentifiers; 
-FS.tokens = FS.englishTokens;
+FS.inputKeywords = FS.swedishToEnglishKeywords;
+FS.inputIdentifiers = FS.swedishToEnglishIdentifiers; 
+FS.tokens = FS.swedishTokens;
 FS.outputTokens = FS.englishTokens;
 
 (function() {
@@ -109,7 +106,7 @@ FS.outputTokens = FS.englishTokens;
 
   FS.englishToSwedish = function(code) {
     FS.inputKeywords = FS.englishToEnglishKeywords;
-    FS.inputIdentifiers = FS.englishToEnglishIdentifiers; 
+    FS.inputIdentifiers = FS.englishToSwedishIdentifiers; 
     FS.tokens = FS.englishTokens;
     FS.outputTokens = FS.swedishTokens;
     return translate(code);
