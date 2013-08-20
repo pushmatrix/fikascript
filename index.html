@@ -35,6 +35,8 @@
       background: #005B99;
       padding: 0px;
       margin:  0px;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
     }
 
     .editor {
@@ -156,7 +158,6 @@
     }
 
     .page {
-      overflow: scroll;
       visibility: hidden;
       background: white;
       height: 100%;
@@ -166,6 +167,7 @@
 
     #docs {
       border: 1px solid #c6c7c7;
+      overflow: scroll;
     }
 
     .translations  {
@@ -192,13 +194,33 @@
     .content {
       height: 100%;
       padding: 20px;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 14px;
       color: rgb(75, 75, 75);
     }
 
     .page.visible {
       visibility: visible;
+    }
+
+    .errors {
+      display: none;
+      left: 50%;
+      height: 30px;
+      background: #d53535;
+      width: 50%;
+      position: absolute;
+      z-index: 100000;
+      border: #962626;
+      padding: 1px;
+      color: white;
+      vertical-align: middle;
+      bottom: 0px;
+      font-size: 14px;
+    }
+
+    .errors p {
+      padding: 5px;
+      margin: 0px;
     }
   </style>
 </head>
@@ -218,8 +240,11 @@
     </ul>
     <div id="editor-window">
       <div id="pages">
-        <div class="page" id="swe-eng">
+        <div class="page visible" id="swe-eng">
           <div id="swe" class="editor"></div>
+          <div class="errors">
+            <p></p>
+          </div>
           <div id="eng" class="editor output"></div>
         </div>
 
@@ -228,7 +253,7 @@
           <div id="eng" class="editor output"></div>
         </div>
   
-        <div class="page visible" id="docs">
+        <div class="page" id="docs">
           <div class="content">
             <h1>Translations</h1>
             <h3>Keywords</h3>
@@ -289,7 +314,13 @@
   var english = CodeMirror(document.getElementById('eng'), { readOnly: true });
   swedish.on("change", function(cm, change) {
     var text = cm.getValue();
-    var ast  = esprima.parse(text, { range: true, tokens: true, comment: true });
+    try {
+      var ast  = esprima.parse(text, { range: true, tokens: true, comment: true });
+      $('.errors').hide();
+    } catch (e) {
+      $('.errors').show();
+      $('.errors p').html(e.toString());
+    }
     ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
     var parsed = escodegen.generate(ast, { comment: true });
     console.log(ast);
