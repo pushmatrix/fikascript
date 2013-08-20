@@ -7,8 +7,8 @@ FS.keywords = {
       else: 'annars',
        for: 'för',
      while: 'medan',
-    return: 'återvända',
-        do: 'göra',
+    return: 'återvänd',
+        do: 'gör',
        var: 'var',
         in: 'inne',
        let: 'låt',
@@ -17,10 +17,10 @@ FS.keywords = {
       case: 'fall',
       this: 'detta',
       with: 'med',
-     break: 'bryta',
+     break: 'bryt',
      throw: 'kasta',
      catch: 'fånga',
-    switch: 'strömbrytare',
+    switch: 'byt',
   continue: 'fortsätt',
   debugger: 'debugger',
 instanceof: 'exempelav',
@@ -30,13 +30,13 @@ instanceof: 'exempelav',
    default: 'standard',
    finally: 'slutligen'
 };
-
+ 
 FS.literals = {
       true: 'sant',
      false: 'falsk',
       null: 'noll'
 };
-
+ 
 FS.identifiers = {
   document: 'dokument'
 };
