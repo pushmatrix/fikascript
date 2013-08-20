@@ -1,7 +1,11 @@
 <html>
 <head>
-  <title></title>
+  <title>FikaScript: Write JavaScript in Swedish</title>
   <meta charset="utf-8">
+  <link rel="icon" 
+      type="image/png" 
+      href="img/favicon.ico">
+
   <link rel="stylesheet" type="text/css" href="css/codemirror.css">
   <script type="text/javascript" src="fikascript.js"></script>
   <script type="text/javascript" src="escodegen.js"></script>
@@ -12,7 +16,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <style type="text/css">
 
-    h1 {
+    #logo {
       color: #ffcc00;
       font-family: 'Lilita One', cursive;
       text-shadow: 0px 2px 0px black;
@@ -45,7 +49,7 @@
     }
 
 
-    #editors {
+    #editor-window {
       background: #f1f0f2;
       position: relative;
       padding: 1px;
@@ -66,12 +70,6 @@
              box-shadow:  0 9px 6px -6px  #333;
     }
 
-    .divider {
-      height: 100px;
-      position: absolute;
-      width: 3px;
-      background: red;
-    }
 
     #container {
       width: 80%;
@@ -150,36 +148,139 @@
       background: linear-gradient(to bottom,  #ffffff 0%,#eaeaea 47%,#f1f0f2 100%); /* W3C */
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f1f0f2',GradientType=0 ); /* IE6-9 */
     }
+
+    #pages {
+      width: 100%;
+      height: 700px;
+      position: relative;
+    }
+
+    .page {
+      overflow: scroll;
+      visibility: hidden;
+      background: white;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+
+    #docs {
+      border: 1px solid #c6c7c7;
+    }
+
+    .translations  {
+      border-spacing:0;
+      border-collapse:collapse;
+      color: rgb(75, 75, 75);
+      width: 100%;
+      margin: 30px 0px;
+    }
+
+    .translations tbody > tr:nth-child(odd) > td, .translations tbody > tr:nth-child(odd) > th {
+      background: #fafafa;
+    }
+
+  /*  #translations td:first-child {
+      text-align: right;
+    }*/
+    .translations td, .translations th  {
+      width: 50%;
+      border: 1px solid #eee;
+      padding: 5px;
+    }
+
+    .content {
+      height: 100%;
+      padding: 20px;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: rgb(75, 75, 75);
+    }
+
+    .page.visible {
+      visibility: visible;
+    }
   </style>
 </head>
 <body>
   <div id="container">
-    <h1>FikaScript</h1>
+    <h1 id="logo">FikaScript</h1>
     <ul class="tabs">
-      <li class="tab active">
+      <li class="tab active" data-tab="swe-eng">
         SWE &#8594; ENG
       </li>
-      <li class="tab">
+      <li class="tab" data-tab="eng-swe">
         ENG &#8594; SWE
       </li>
-      <li class="tab">
+      <li class="tab" data-tab="docs">
         Docs
       </li>
     </ul>
-    <div id="editors">
-      <div class="divider"></div>
-      <div id="swe" class="editor"></div>
-      <div id="eng" class="editor"></div>
+    <div id="editor-window">
+      <div id="pages">
+        <div class="page" id="swe-eng">
+          <div id="swe" class="editor"></div>
+          <div id="eng" class="editor output"></div>
+        </div>
+
+        <div class="page" id="eng-swe">
+          <div id="swe" class="editor"></div>
+          <div id="eng" class="editor output"></div>
+        </div>
+  
+        <div class="page visible" id="docs">
+          <div class="content">
+            <h1>Translations</h1>
+            <h3>Keywords</h3>
+            <table id="translation-keywords" class="translations">
+              <tr>
+                <th>English</th>
+                <th>Swedish</th>
+              </tr>
+            </table>
+            <h3>Literals</h3>
+            <table id="translation-literals" class="translations">
+              <tr>
+                <th>English</th>
+                <th>Swedish</th>
+              </tr>
+            </table>
+            <h3>Identifiers</h3>
+            <table id="translation-identifiers" class="translations">
+              <tr>
+                <th>English</th>
+                <th>Swedish</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
 <script type="text/javascript">
-
+    
+    populateTranslationTables = function(types) {
+      for(type in types) {
+        type = types[type];
+        var table = $("#translation-" + type);
+        for (key in FS[type]) {
+          table.append("<tr><td>" + key + "</td><td>" + FS.tokens[key] + "</td></tr>");
+        }
+      }
+    }
     $().ready(function() {
-      console.log('ok')
+
+      populateTranslationTables(['keywords', 'literals', 'identifiers']);
+
       $('.tab').click(function() {
         $('.tab').removeClass('active');
         $(this).addClass('active');
+        var page = $(this).data('tab');
+        $(".page").removeClass('visible');
+        x = $("#" + page);
+        $("#" + page).addClass('visible');
       });
     });
 
