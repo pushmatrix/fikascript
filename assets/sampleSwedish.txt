@@ -1,7 +1,7 @@
 // Write JavaScript in Swedish!
 
 var namn = fråga('Vad är ditt namn?');
-varna('Hej! ' + namn);
+ropa('Hej! ' + namn);
 
 om (namn == 'Agnetha' || namn == 'Björn') {
   barnvagnar = 2;
@@ -9,16 +9,16 @@ om (namn == 'Agnetha' || namn == 'Björn') {
   barnvagnar = 4;
 }
 IKEA = 'lingondryck';
-varna('Vad ska vi äta på IKEA?');
+ropa('Vad ska vi äta på IKEA?');
 
 försök {
-    varna('Försöker ta ett beslut...');
+    ropa('Försöker ta ett beslut...');
     göraBeslut();
 } fånga (undantag) {
-    varna('En gruppdiskussion börjar');
+    ropa('En gruppdiskussion börjar');
     gruppDiskussion();
 } slutligen {
-    varna('Ge upp...');
+    ropa('Ge upp...');
 }
 
 // Bork bork bork
@@ -26,11 +26,11 @@ funktion gruppDiskussion() {
   var timmar = 0;
   var snaps = 0;
   medan (timmar < 3) {
-    varna('En gång till');
+    ropa('En gång till');
     timmar++;
     snaps++;
   }
-  återvänd 'köttbullar';
+  returnera 'köttbullar';
 }
 
 konsol.log('EUPHORRRRRIA');

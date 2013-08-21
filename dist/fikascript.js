@@ -7,7 +7,7 @@ FS.keywords = {
       else: 'annars',
        for: 'för',
      while: 'medan',
-    return: 'återvänd',
+    return: 'returnera',
         do: 'gör',
        var: 'var',
         in: 'inuti',
@@ -40,7 +40,7 @@ FS.literals = {
 FS.identifiers = {
   document: 'dokument',
   console: 'konsol',
-  alert:  'varna',
+  alert:  'ropa',
   prompt: 'fråga'
 };
 
