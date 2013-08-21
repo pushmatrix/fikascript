@@ -38,7 +38,8 @@ FS.literals = {
 };
  
 FS.identifiers = {
-  document: 'dokument'
+  document: 'dokument',
+  console: 'konsol'
 };
 
 function mergeObjects(objects){
