@@ -4,12 +4,12 @@ var namn = fråga('Vad är ditt namn?');
 varna('Hej! ' + namn);
 
 om (namn == 'Agnetha' || namn == 'Björn') {
-  IKEA = 'korvar';
+  barnvagnar = 2;
 } annars {
-  IKEA = 'köttbullar';
+  barnvagnar = 4;
 }
-IKEA += ' och lingondryck';
-varna('Du ska äta ' + IKEA);
+IKEA = 'lingondryck';
+varna('Vad ska vi äta på IKEA?');
 
 försök {
     varna('Försöker ta ett beslut...');
@@ -30,7 +30,7 @@ funktion gruppDiskussion() {
     timmar++;
     snaps++;
   }
-  återvänd 'ingenting';
+  återvänd 'köttbullar';
 }
 
 konsol.log('EUPHORRRRRIA');
