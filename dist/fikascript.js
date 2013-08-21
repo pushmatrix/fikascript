@@ -39,7 +39,9 @@ FS.literals = {
  
 FS.identifiers = {
   document: 'dokument',
-  console: 'konsol'
+  console: 'konsol',
+  alert:  'varna',
+  prompt: 'fråga'
 };
 
 function mergeObjects(objects){
