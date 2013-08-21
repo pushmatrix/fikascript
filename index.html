@@ -249,6 +249,19 @@
       margin-top: 5px;
     }
 
+    .runBtn {
+      position: absolute;
+      right: 20px;
+      bottom: 7px;
+      color: grey;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .runBtn:hover{
+      opacity: 0.6;
+    }
+
   </style>
 </head>
 <body>
@@ -283,6 +296,7 @@
             <p></p>
           </div>
           <div class="editor output"></div>
+          <div class="runBtn">Run</div>
         </div>
 
         <div class="page" id="eng-swe">
@@ -291,6 +305,7 @@
             <p></p>
           </div>
           <div class="editor output"></div>
+          <div class="runBtn">Run</div>
         </div>
   
         <div class="page" id="docs">
@@ -369,6 +384,8 @@
           errorsClass.find('p').html(e.toString());
         }
       });
+      editors[type] = input;
+      editors[type + '-output'] = output;
       return input;
     }
 
@@ -387,8 +404,8 @@
 
       populateTranslationTables(['keywords', 'literals', 'identifiers']);
       editors = {};
-      editors['swe-eng'] = setupCodeMirror("swe-eng");
-      editors['eng-swe'] = setupCodeMirror("eng-swe");
+      setupCodeMirror("swe-eng");
+      setupCodeMirror("eng-swe");
       selectPage('swe-eng');
 
       $.get("assets/sampleSwedish.txt", function(val) {
@@ -407,6 +424,17 @@
         $(this).addClass('active');
         var page = $(this).data('tab');
         selectPage(page);
+      });
+
+      $('.runBtn').click(function() {
+        var page = $(this).parents('.page').attr('id');
+        var code = '';
+        if (page == 'eng-swe') {
+          code = editors['eng-swe'].getValue();
+        } else {
+          code = editors['swe-eng-output'].getValue();
+        }
+        eval(code);
       });
     });
 
