@@ -1,1 +1,29 @@
 // Convert from JavaScript to FikaScript
+
+prompt('What is your favourite ABBA album?');
+
+month = 'august';
+if (month != 'july' && month != 'june') {
+  feeling = 'depressed';
+  hair  = 'blonde';
+} else {
+  feeling = 'happy';
+  hair  = 'blonde';
+}
+
+var names = [
+  'Agnetha',
+  'Björn',
+  'Benny',
+  'Anni-Frid'
+  ];
+
+for (i in names) {
+  console.log(names[i]);
+}
+
+meatballs = 13;
+stockholmStrollerCount = 0;
+do {
+  stockholmStrollerCount++;
+} while(stockholmStrollerCount <= 9001);
