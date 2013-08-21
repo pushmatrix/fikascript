@@ -5578,7 +5578,14 @@ require.define("/escodegen.js",function(require,module,exports,__dirname,__filen
                 result = generateNumber(expr.value);
                 break;
             }
-
+            if (expr.value === true) {
+              result = FS.outputTokens.true;
+              break;
+            }
+            if (expr.value === false) {
+              result = FS.outputTokens.false;
+              break;
+            }
             result = expr.value.toString();
             break;
 
