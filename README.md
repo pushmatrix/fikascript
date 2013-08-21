@@ -1,9 +1,10 @@
 [FikaScript](http://fikascript.se)
 ==========
 ![Swedish Flag](/assets/img/flag.png)  
-Finally! A way for Swedes to code in their native language. See it in action [here](http://fikascript.se). 
-FikaScript compiles directly to and from JavaScript, and is named after [fika](http://en.wikipedia.org/wiki/Fika_(coffee_break): the sacred Swedish coffee break.
+Finally there is a way for Swedes to code in their native language!
+FikaScript lets you write JavaScript in Swedish, and is named after [fika](http://en.wikipedia.org/wiki/Fika_(coffee_break): the sacred Swedish coffee break.
 
+See it in action [here](http://fikascript.se). 
 ### Including FikaScript files in your HTML
 
 - Include `fikascript.js` and `fikascript.browser.js`.
