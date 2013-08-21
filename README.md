@@ -1,12 +1,47 @@
-fikascript
+[FikaScript](http://fikascript.se)
 ==========
+![Swedish Flag](/assets/img/flag.png)  
+Finally! A way for Swedes to code in their native language. FikaScript compiles directly to and from JavaScript, and is named after [fika](http://en.wikipedia.org/wiki/Fika_(coffee_break): the sacred Swedish coffee break.
 
-Swedish JavaScript http://fikascript.se
+### Including FikaScript files in your HTML
 
+- Include `fikascript.js` and `fikascript.browser.js`.
+- Make sure your html is set to allow utf-8 characters (add `<meta charset="utf-8">` in the <head>).
 
-Make sure to include  <meta charset="utf-8">
+FikaScript supports the `text/fikascript` MIME type. Any script tag with that type will be compiled and run automatically:
+```html
+<script type="text/fikascript">
+  om (x < 5) {
+    konsol.log("hej!");
+  } annars {
+    konsol.log("nej!");
+  }
+</script>
+```
 
-TODO
-=======
+You can also specify a `src` for your script tags: 
+```html
+<script type="text/fikascript" src="snaps.fika"></script>
+```
+
+#### Optional
+
+##### Converting from FikaScript to JavaScript:
+
+```javascript
+FikaScript.swedishToEnglish(code); // returns a string representing the translated code
+```
+
+##### Convert from JavaScript to FikaScript:
+
+```javascript
+FikaScript.englishToSwedish(code); // returns a string representing the translated code
+```
+
+### Missing/incorrect translations?
+You can see the translations over [here](https://github.com/pushmatrix/fikascript/blob/gh-pages/dist/fikascript.js#L4). Feel free to submit a pull request!
+
+###TO-DOs
 - Syntax highlighting for unicode chars
-- Mobile Friendly!
+- npm support for command line compiling
+- Add more translations!!! (ex: Array.pop, push, etc...)
