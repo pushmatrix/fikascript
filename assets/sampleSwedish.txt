@@ -1,31 +1,36 @@
 // Write JavaScript in Swedish!
 
-var saker = [1, 2, 14, 30, 50];
+var namn = fråga('Vad är ditt namn?');
+varna('Hej! ' + namn);
 
-var människor = [
-  'Björn',
-  'Benny',
-  'Agnetha',
-  'Anni-Frid'
-  ];
+om (namn == 'Agnetha' || namn == 'Björn') {
+  IKEA = 'korvar';
+} annars {
+  IKEA = 'köttbullar';
+}
+IKEA += ' och lingondryck';
+varna('Du ska äta ' + IKEA);
 
-// Bork bork bork
 försök {
+    varna('Försöker ta ett beslut...');
     göraBeslut();
 } fånga (undantag) {
+    varna('En gruppdiskussion börjar');
     gruppDiskussion();
 } slutligen {
-    konsol.log('Ge upp...');
+    varna('Ge upp...');
 }
 
-om (människor.length == 4) {
-  konsol.log("HEJ!!!");
+// Bork bork bork
+funktion gruppDiskussion() {
+  var timmar = 0;
+  var snaps = 0;
+  medan (timmar < 3) {
+    varna('En gång till');
+    timmar++;
+    snaps++;
+  }
+  återvänd 'ingenting';
 }
 
-funktion sägaNamn(namn) {
-  konsol.log('Hej ' + namn);
-}
-
-för(index inuti människor) {
-  sägaNamn(människor[index]);
-}
+konsol.log('EUPHORRRRRIA');
