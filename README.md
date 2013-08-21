@@ -28,7 +28,7 @@ You can also specify a `src` for your script tags:
 
 #### Optional
 
-##### Converting from FikaScript to JavaScript:
+##### Convert from FikaScript to JavaScript:
 
 ```javascript
 FikaScript.swedishToEnglish(code); // returns a string representing the translated code
