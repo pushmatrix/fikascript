@@ -373,11 +373,15 @@
       return input;
     }
 
+    isOnMobile = function() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
     selectPage = function(page) {
       $(".page").removeClass('visible');
       $("#" + page).addClass('visible');
       if (editor = editors[page]) {
-        editor.focus();
+        if (!isOnMobile) editor.focus();
       }
     }
     $().ready(function() {
@@ -395,6 +399,7 @@
 
       $.get("assets/sampleEnglish.txt", function(val) {
         editors['eng-swe'].setValue(val);
+
         editors['eng-swe'].setCursor(2);
       });
 
