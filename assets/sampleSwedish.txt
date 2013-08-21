@@ -9,6 +9,15 @@ var människor = [
   'Anni-Frid'
   ];
 
+// Bork bork bork
+försök {
+    göraBeslut();
+} fånga (undantag) {
+    gruppDiskussion();
+} slutligen {
+    konsol.log('Ge upp...');
+}
+
 om (människor.length == 4) {
   konsol.log("HEJ!!!");
 }
@@ -17,6 +26,6 @@ funktion sägaNamn(namn) {
   konsol.log('Hej ' + namn);
 }
 
-för(index inne människor) {
+för(index inuti människor) {
   sägaNamn(människor[index]);
 }

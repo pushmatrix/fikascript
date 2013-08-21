@@ -9,10 +9,10 @@
   <meta name="keywords" content="FikaScript, Sweden, JavaScript">
   <meta name="author" content="Daniel Beauchamp">
   <meta name="viewport" content="width=device-width, initial-scale=0.5">
-  <link rel="stylesheet" type="text/css" href="css/codemirror.css">
-  <script type="text/javascript" src="fikascript.js"></script>
-  <script type="text/javascript" src="js/codemirror.js"></script>
-  <script type="text/javascript" src="js/codemirror-javascript.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/codemirror.css">
+  <script type="text/javascript" src="dist/fikascript.js"></script>
+  <script type="text/javascript" src="assets/js/codemirror.js"></script>
+  <script type="text/javascript" src="assets/js/codemirror-javascript.js"></script>
   <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -335,7 +335,7 @@
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="FikaScript: Finally there is a way for Swedes to write JavaScript in Swedish." data-count="none" data-hashtags="sweden">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         <div class="fb-like" data-href="http://fikascript.se" data-width="10" data-layout="button_count" data-show-faces="false" data-send="false"></div>
-      <div></div>
+      </div>
     </footer>
   </div>
 
@@ -388,12 +388,12 @@
       editors['eng-swe'] = setupCodeMirror("eng-swe");
       selectPage('swe-eng');
 
-      $.get("sampleSwedish.txt", function(val) {
+      $.get("assets/sampleSwedish.txt", function(val) {
         editors['swe-eng'].setValue(val);
         editors['swe-eng'].setCursor(1);
       });
 
-      $.get("sampleEnglish.txt", function(val) {
+      $.get("assets/sampleEnglish.txt", function(val) {
         editors['eng-swe'].setValue(val);
         editors['eng-swe'].setCursor(2);
       });
