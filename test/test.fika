@@ -1,0 +1,35 @@
+funktion hej() {
+  var a = [1,2,3];
+  för (i inuti a) { 
+  }
+  återvänd a;
+}
+
+var saker = ny hej();
+
+om ( x < 5 ) {
+  försök {
+  } fånga (exception) {
+    detta.stuff = '5';
+  } slutligen {
+    gör {
+      x++; 
+    } medan (x<10);
+  }
+  för(var x = 0; x < 10; x++) {
+    om (x % 2) {
+      bryt;
+    } annars {
+      byt(x) {
+        fall 5: bryt;
+        standard: bryt;
+      }
+      fortsätt;
+    }
+  }
+}
+
+sant;
+falsk;
+noll;
+dokument;

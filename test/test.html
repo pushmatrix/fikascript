@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>Tests!</title>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../fikascript.js"></script>
+  <script type="text/javascript" src="../fikascript.browser.js"></script>
+  <style type="text/css">
+    .diff {
+      color: red;
+    }
+
+    #codeDiff {
+      display: none;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .fail {
+      color: red;
+    }
+  </style>
+  <script>
+
+    if (window.addEventListener) {
+      window.addEventListener('DOMContentLoaded', runTests, false);
+    } else {
+      window.attachEvent('onload', runTests);
+    }
+    FikaScript.run = function(code) {
+      runTest(code)
+    }
+
+    function runTests() {
+      FikaScript.load('test.fika');
+    }
+
+
+    diff = function(source, dest) {
+      for(index in source) {
+        if (source[index] != dest[index]) {
+          sourceStr = source.slice(0, index) + "<span class='diff'>&#88;</span>" + source.slice(index);
+          destStr = dest.slice(0, index) + "<span class='diff'>&#88;</span>" + dest.slice(index);
+          return [sourceStr, destStr];
+        }
+      }
+    }
+
+    runTest = function(code) {
+      translation = FikaScript.swedishToEnglish(code);
+      translation = FikaScript.englishToSwedish(translation);
+      translation = FikaScript.swedishToEnglish(translation);
+      translation = FikaScript.englishToSwedish(translation);
+      code = code.replace(/\s/g, '');
+      translation = translation.replace(/\s/g, '');
+      if (code != translation) {
+        diffs = diff(code, translation);
+        document.getElementById('result').innerHTML = 'FAIL!';
+        document.getElementById('result').className = 'fail';
+        document.getElementById('codeDiff').style.display = 'inline-block';
+        document.getElementById('src').innerHTML = diffs[0];
+        document.getElementById('dest').innerHTML = diffs[1];
+      } else {
+        document.getElementById('result').innerHTML = 'PASS!';
+        document.getElementById('result').className = 'success';
+      }
+    }
+  </script>
+</head>
+<body>
+
+<h1 id="result">Running....</h1>
+<div id="codeDiff">
+  <h3>Original</h3>
+  <div id="src"></div>
+  <h3>Final</h3>
+  <div id="dest"></div>
+</div>
+
+
+</body>
+</html>
