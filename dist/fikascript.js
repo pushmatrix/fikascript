@@ -33,7 +33,7 @@ instanceof: 'instansav',
  
 FS.literals = {
       true: 'sant',
-     false: 'falsk',
+     false: 'falskt',
       null: 'noll'
 };
  
